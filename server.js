@@ -4,7 +4,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const state = require('./lib/state');
-const connect = require('./lib/config');
+const config = require('./lib/config');
+const effects = require('./lib/effects');
 
 const app = express();
 const port1 = 3000;
@@ -27,8 +28,18 @@ app.get('/state', async (req, res) => {
 	res.status(response.code).send(response.data);
 });
 
-app.post('/connect', (req, res) => {
-	const response = connect(req);
+app.get('/effects', async (req, res) => {
+	const response = await effects.getEffects(req);
+	res.status(response.code).send(response.data);
+});
+
+app.post('/effects', async (req, res) => {
+	const response = await effects.setEffects(req);
+	res.status(response.code).send(response.data);
+});
+
+app.post('/connect', async (req, res) => {
+	const response = await config.connect(req);
 	res.status(response.code).send(response.data);
 });
 
