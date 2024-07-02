@@ -6,6 +6,7 @@ require('dotenv').config();
 const state = require('./lib/state');
 const config = require('./lib/config');
 const effects = require('./lib/effects');
+const palettes = require('./lib/palettes');
 
 const app = express();
 const port1 = 3000;
@@ -24,17 +25,17 @@ app.post('/state', async (req, res) => {
 });
 
 app.get('/state', async (req, res) => {
-	const response = await state.getState(req);
+	const response = await state.getState();
 	res.status(response.code).send(response.data);
 });
 
 app.get('/effects', async (req, res) => {
-	const response = await effects.getEffects(req);
+	const response = await effects.getEffects();
 	res.status(response.code).send(response.data);
 });
 
-app.post('/effects', async (req, res) => {
-	const response = await effects.setEffects(req);
+app.get('/palettes', async (req, res) => {
+	const response = await palettes.getPalettes();
 	res.status(response.code).send(response.data);
 });
 
